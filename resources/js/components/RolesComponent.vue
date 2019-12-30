@@ -76,10 +76,10 @@
         </template>
         <template v-slot:item.action="{ item }">
             <v-icon small class="mr-2" @click="editItem(item)">
-                edit
+                mdi-content-save-edit-outline
             </v-icon>
             <v-icon small @click="deleteItem(item)">
-                delete
+                mdi-delete
             </v-icon>
         </template>
         <template v-slot:no-data>
@@ -97,7 +97,7 @@ export default {
                 text: "#",
                 align: "left",
                 sortable: false,
-                value: "name"
+                value: "id"
             },
             { text: "Name", value: "name" },
             { text: "Created At", value: "created_at" },
@@ -171,7 +171,12 @@ export default {
             );
             axios
                 .get("/api/roles", {})
-                .then(res => (this.roles = res.data.roles));
+                .then(res => (this.roles = res.data.roles))
+                .catch(err => {
+                    if (err.response.status == 401)
+                        localStorage.removeItem("token");
+                    this.$router.push("/login");
+                });
         },
 
         editItem(item) {
