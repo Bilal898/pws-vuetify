@@ -104,6 +104,10 @@ export default {
                 })
                 .then(res => {
                     localStorage.setItem("token", res.data.token);
+                    this.$router
+                        .push("/admin")
+                        .then(res => console.log("logged"))
+                        .catch(err => console.log(err));
                 })
                 .catch(err => {
                     console.log(err.response.data.status);

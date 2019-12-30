@@ -38,12 +38,12 @@
                         >Browse Channels</v-list-item-title
                     >
                 </v-list-item>
-                <v-list-item link>
+                <v-list-item link @click="logout">
                     <v-list-item-action>
                         <v-icon color="grey darken-1">mdi-settings</v-icon>
                     </v-list-item-action>
                     <v-list-item-title class="grey--text text--darken-1"
-                        >Manage Subscriptions</v-list-item-title
+                        >Logout</v-list-item-title
                     >
                 </v-list-item>
             </v-list>
@@ -71,7 +71,14 @@
         <v-content>
             <v-container class="fill-height">
                 <v-row justify="center" align="center">
-                    <v-col> </v-col>
+                    <v-col>
+                        <v-snackbar v-model="snackbar">
+                            Logged in successfully
+                            <v-btn color="pink" text @click="snackbar = false">
+                                Close
+                            </v-btn>
+                        </v-snackbar>
+                    </v-col>
                 </v-row>
             </v-container>
         </v-content>
@@ -80,7 +87,8 @@
 <script>
 export default {
     props: {
-        source: String
+        source: String,
+        snackbar: false
     },
     data: () => ({
         drawer: null,
@@ -101,6 +109,16 @@ export default {
     }),
     created() {
         this.$vuetify.theme.dark = true;
+        this.snackbar = true;
+    },
+    methods: {
+        logout: function() {
+            localStorage.removeItem("token");
+            this.$router
+                .push("/login")
+                .then(res => console.log("logged out"))
+                .catch(err => console.log(err));
+        }
     }
 };
 </script>

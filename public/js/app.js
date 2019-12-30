@@ -1917,9 +1917,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    source: String
+    source: String,
+    snackbar: false
   },
   data: function data() {
     return {
@@ -1960,6 +1968,17 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.$vuetify.theme.dark = true;
+    this.snackbar = true;
+  },
+  methods: {
+    logout: function logout() {
+      localStorage.removeItem("token");
+      this.$router.push("/login").then(function (res) {
+        return console.log("logged out");
+      })["catch"](function (err) {
+        return console.log(err);
+      });
+    }
   }
 });
 
@@ -2095,6 +2114,12 @@ __webpack_require__.r(__webpack_exports__);
         password: this.password
       }).then(function (res) {
         localStorage.setItem("token", res.data.token);
+
+        _this.$router.push("/admin").then(function (res) {
+          return console.log("logged");
+        })["catch"](function (err) {
+          return console.log(err);
+        });
       })["catch"](function (err) {
         console.log(err.response.data.status);
         _this.text = err.response.data.status;
@@ -19837,7 +19862,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-list-item",
-                { attrs: { link: "" } },
+                { attrs: { link: "" }, on: { click: _vm.logout } },
                 [
                   _c(
                     "v-list-item-action",
@@ -19852,7 +19877,7 @@ var render = function() {
                   _c(
                     "v-list-item-title",
                     { staticClass: "grey--text text--darken-1" },
-                    [_vm._v("Manage Subscriptions")]
+                    [_vm._v("Logout")]
                   )
                 ],
                 1
@@ -19919,7 +19944,48 @@ var render = function() {
               _c(
                 "v-row",
                 { attrs: { justify: "center", align: "center" } },
-                [_c("v-col")],
+                [
+                  _c(
+                    "v-col",
+                    [
+                      _c(
+                        "v-snackbar",
+                        {
+                          model: {
+                            value: _vm.snackbar,
+                            callback: function($$v) {
+                              _vm.snackbar = $$v
+                            },
+                            expression: "snackbar"
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                        Logged in successfully\n                        "
+                          ),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { color: "pink", text: "" },
+                              on: {
+                                click: function($event) {
+                                  _vm.snackbar = false
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            Close\n                        "
+                              )
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
                 1
               )
             ],
