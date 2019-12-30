@@ -1,7 +1,7 @@
 <template>
-    <v-container>
-        <v-alert type="info">valert</v-alert>
-    </v-container>
+    <div>
+        <router-view></router-view>
+    </div>
 </template>
 
 <script>
