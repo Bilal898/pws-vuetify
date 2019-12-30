@@ -17,13 +17,15 @@
                                 color="deep-purple accent-4"
                             ></v-progress-linear>
                             <v-card-text>
-                                <v-form>
+                                <v-form ref="form" v-model="valid">
                                     <v-text-field
                                         label="Login"
                                         name="login"
                                         v-model="email"
+                                        :rules="emailRules"
                                         prepend-icon="mdi-account-circle-outline"
                                         type="text"
+                                        required
                                     />
 
                                     <v-text-field
@@ -33,12 +35,16 @@
                                         v-model="password"
                                         prepend-icon="mdi-account-lock-outline"
                                         type="password"
+                                        required
                                     />
                                 </v-form>
                             </v-card-text>
                             <v-card-actions>
                                 <v-spacer />
-                                <v-btn color="error" @click="login"
+                                <v-btn
+                                    :disabled="!valid"
+                                    color="error"
+                                    @click="login"
                                     >Login</v-btn
                                 >
                             </v-card-actions>
@@ -63,7 +69,13 @@ export default {
             password: "",
             loading: false,
             snackbar: false,
-            text: ""
+            text: "",
+            valid: true,
+            emailRules: [
+                v => !!v || "E-mail is required",
+                v => /.+@.+\..+/.test(v) || "E-mail must be valid"
+            ],
+            passwordRules: [v => !!v || "Password is required"]
         };
     },
     methods: {

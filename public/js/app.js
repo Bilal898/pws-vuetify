@@ -2076,6 +2076,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2083,7 +2089,16 @@ __webpack_require__.r(__webpack_exports__);
       password: "",
       loading: false,
       snackbar: false,
-      text: ""
+      text: "",
+      valid: true,
+      emailRules: [function (v) {
+        return !!v || "E-mail is required";
+      }, function (v) {
+        return /.+@.+\..+/.test(v) || "E-mail must be valid";
+      }],
+      passwordRules: [function (v) {
+        return !!v || "Password is required";
+      }]
     };
   },
   methods: {
@@ -20097,14 +20112,26 @@ var render = function() {
                             [
                               _c(
                                 "v-form",
+                                {
+                                  ref: "form",
+                                  model: {
+                                    value: _vm.valid,
+                                    callback: function($$v) {
+                                      _vm.valid = $$v
+                                    },
+                                    expression: "valid"
+                                  }
+                                },
                                 [
                                   _c("v-text-field", {
                                     attrs: {
                                       label: "Login",
                                       name: "login",
+                                      rules: _vm.emailRules,
                                       "prepend-icon":
                                         "mdi-account-circle-outline",
-                                      type: "text"
+                                      type: "text",
+                                      required: ""
                                     },
                                     model: {
                                       value: _vm.email,
@@ -20122,7 +20149,8 @@ var render = function() {
                                       name: "password",
                                       "prepend-icon":
                                         "mdi-account-lock-outline",
-                                      type: "password"
+                                      type: "password",
+                                      required: ""
                                     },
                                     model: {
                                       value: _vm.password,
@@ -20147,7 +20175,10 @@ var render = function() {
                               _c(
                                 "v-btn",
                                 {
-                                  attrs: { color: "error" },
+                                  attrs: {
+                                    disabled: !_vm.valid,
+                                    color: "error"
+                                  },
                                   on: { click: _vm.login }
                                 },
                                 [_vm._v("Login")]
