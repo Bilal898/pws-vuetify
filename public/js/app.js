@@ -2037,7 +2037,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      email: "",
+      password: ""
+    };
+  },
+  methods: {
+    login: function login() {
+      localStorage.setItem("token", "34234523sdfsdf34");
+    }
+  }
+});
 
 /***/ }),
 
@@ -19960,6 +19976,13 @@ var render = function() {
                                       "prepend-icon":
                                         "mdi-account-circle-outline",
                                       type: "text"
+                                    },
+                                    model: {
+                                      value: _vm.email,
+                                      callback: function($$v) {
+                                        _vm.email = $$v
+                                      },
+                                      expression: "email"
                                     }
                                   }),
                                   _vm._v(" "),
@@ -19971,6 +19994,13 @@ var render = function() {
                                       "prepend-icon":
                                         "mdi-account-lock-outline",
                                       type: "password"
+                                    },
+                                    model: {
+                                      value: _vm.password,
+                                      callback: function($$v) {
+                                        _vm.password = $$v
+                                      },
+                                      expression: "password"
                                     }
                                   })
                                 ],
@@ -19985,9 +20015,14 @@ var render = function() {
                             [
                               _c("v-spacer"),
                               _vm._v(" "),
-                              _c("v-btn", { attrs: { color: "error" } }, [
-                                _vm._v("Login")
-                              ])
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { color: "error" },
+                                  on: { click: _vm.login }
+                                },
+                                [_vm._v("Login")]
+                              )
                             ],
                             1
                           )
@@ -72649,7 +72684,14 @@ var routes = [{
 }, {
   path: "/admin",
   component: _components_AdminComponent__WEBPACK_IMPORTED_MODULE_3__["default"],
-  name: "Admin"
+  name: "Admin",
+  beforeEnter: function beforeEnter(to, from, next) {
+    if (localStorage.getItem("token")) {
+      next();
+    } else {
+      next("/login");
+    }
+  }
 }];
 /* harmony default export */ __webpack_exports__["default"] = (new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   routes: routes
