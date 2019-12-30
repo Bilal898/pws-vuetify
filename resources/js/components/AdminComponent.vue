@@ -85,11 +85,11 @@ export default {
     data: () => ({
         drawer: null,
         items: [
-            { icon: "trending_up", text: "Most Popular" },
-            { icon: "subscriptions", text: "Subscriptions" },
+            { icon: "trending-up", text: "Most Popular" },
+            { icon: "youtube-subscription", text: "Subscriptions" },
             { icon: "history", text: "History" },
-            { icon: "featured_play_list", text: "Playlists" },
-            { icon: "watch_later", text: "Watch Later" }
+            { icon: "playlist-star", text: "Playlists" },
+            { icon: "youtube-tv", text: "Watch Later" }
         ],
         items2: [
             { picture: 28, text: "Joseph" },

@@ -1925,19 +1925,19 @@ __webpack_require__.r(__webpack_exports__);
     return {
       drawer: null,
       items: [{
-        icon: "trending_up",
+        icon: "trending-up",
         text: "Most Popular"
       }, {
-        icon: "subscriptions",
+        icon: "youtube-subscription",
         text: "Subscriptions"
       }, {
         icon: "history",
         text: "History"
       }, {
-        icon: "featured_play_list",
+        icon: "playlist-star",
         text: "Playlists"
       }, {
-        icon: "watch_later",
+        icon: "youtube-tv",
         text: "Watch Later"
       }],
       items2: [{
@@ -19957,7 +19957,8 @@ var render = function() {
                                     attrs: {
                                       label: "Login",
                                       name: "login",
-                                      "prepend-icon": "mdi-person",
+                                      "prepend-icon":
+                                        "mdi-account-circle-outline",
                                       type: "text"
                                     }
                                   }),
@@ -19967,7 +19968,8 @@ var render = function() {
                                       id: "password",
                                       label: "Password",
                                       name: "password",
-                                      "prepend-icon": "mdi-lock",
+                                      "prepend-icon":
+                                        "mdi-account-lock-outline",
                                       type: "password"
                                     }
                                   })
