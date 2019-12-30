@@ -1,7 +1,7 @@
 <template>
     <v-data-table
         :headers="headers"
-        :items="desserts"
+        :items="roles"
         sort-by="calories"
         class="elevation-1"
         item-key="name"
@@ -91,34 +91,33 @@
 export default {
     data: () => ({
         dialog: false,
+        loading: false,
         headers: [
             {
-                text: "Dessert (100g serving)",
+                text: "#",
                 align: "left",
                 sortable: false,
                 value: "name"
             },
-            { text: "Calories", value: "calories" },
-            { text: "Fat (g)", value: "fat" },
-            { text: "Carbs (g)", value: "carbs" },
-            { text: "Protein (g)", value: "protein" },
+            { text: "Name", value: "name" },
+            { text: "Created At", value: "created_at" },
+            { text: "Updated At", value: "updated_at" },
             { text: "Actions", value: "action", sortable: false }
         ],
-        desserts: [],
+        roles: [],
+
         editedIndex: -1,
         editedItem: {
             name: "",
             calories: 0,
             fat: 0,
-            carbs: 0,
-            protein: 0
+            carbs: 0
         },
         defaultItem: {
             name: "",
             calories: 0,
             fat: 0,
-            carbs: 0,
-            protein: 0
+            carbs: 0
         }
     }),
 
@@ -140,90 +139,51 @@ export default {
 
     methods: {
         initialize() {
-            this.desserts = [
-                {
-                    name: "Frozen Yogurt",
-                    calories: 159,
-                    fat: 6.0,
-                    carbs: 24,
-                    protein: 4.0
+            // this.roles = [];
+            // Add a request interceptor
+            axios.interceptors.request.use(
+                config => {
+                    this.loading = true;
+                    // Do something before request is sent
+                    return config;
                 },
-                {
-                    name: "Ice cream sandwich",
-                    calories: 237,
-                    fat: 9.0,
-                    carbs: 37,
-                    protein: 4.3
-                },
-                {
-                    name: "Eclair",
-                    calories: 262,
-                    fat: 16.0,
-                    carbs: 23,
-                    protein: 6.0
-                },
-                {
-                    name: "Cupcake",
-                    calories: 305,
-                    fat: 3.7,
-                    carbs: 67,
-                    protein: 4.3
-                },
-                {
-                    name: "Gingerbread",
-                    calories: 356,
-                    fat: 16.0,
-                    carbs: 49,
-                    protein: 3.9
-                },
-                {
-                    name: "Jelly bean",
-                    calories: 375,
-                    fat: 0.0,
-                    carbs: 94,
-                    protein: 0.0
-                },
-                {
-                    name: "Lollipop",
-                    calories: 392,
-                    fat: 0.2,
-                    carbs: 98,
-                    protein: 0
-                },
-                {
-                    name: "Honeycomb",
-                    calories: 408,
-                    fat: 3.2,
-                    carbs: 87,
-                    protein: 6.5
-                },
-                {
-                    name: "Donut",
-                    calories: 452,
-                    fat: 25.0,
-                    carbs: 51,
-                    protein: 4.9
-                },
-                {
-                    name: "KitKat",
-                    calories: 518,
-                    fat: 26.0,
-                    carbs: 65,
-                    protein: 7
+                error => {
+                    this.loading = false;
+                    // Do something with request error
+                    return Promise.reject(error);
                 }
-            ];
+            );
+
+            // Add a response interceptor
+            axios.interceptors.response.use(
+                response => {
+                    this.loading = false;
+                    // Any status code that lie within the range of 2xx cause this function to trigger
+                    // Do something with response data
+                    return response;
+                },
+                error => {
+                    this.loading = false;
+                    // Any status codes that falls outside the range of 2xx cause this function to trigger
+                    // Do something with response error
+                    return Promise.reject(error);
+                }
+            );
+            axios
+                .get("/api/roles", {})
+                .then(res => (this.roles = res.data.roles));
         },
 
         editItem(item) {
-            this.editedIndex = this.desserts.indexOf(item);
+            this.editedIndex = this.roles.indexOf(item);
             this.editedItem = Object.assign({}, item);
             this.dialog = true;
         },
 
         deleteItem(item) {
-            const index = this.desserts.indexOf(item);
+            const index = this.roles.indexOf(item);
             confirm("Are you sure you want to delete this item?") &&
-                this.desserts.splice(index, 1);
+                this.roles.splice(index, 1);
         },
 
         close() {
@@ -236,9 +196,9 @@ export default {
 
         save() {
             if (this.editedIndex > -1) {
-                Object.assign(this.desserts[this.editedIndex], this.editedItem);
+                Object.assign(this.roles[this.editedIndex], this.editedItem);
             } else {
-                this.desserts.push(this.editedItem);
+                this.roles.push(this.editedItem);
             }
             this.close();
         }

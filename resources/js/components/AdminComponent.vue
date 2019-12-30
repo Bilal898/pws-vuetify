@@ -2,7 +2,12 @@
     <v-app id="inspire">
         <v-navigation-drawer v-model="drawer" app clipped>
             <v-list dense>
-                <v-list-item v-for="item in items" :key="item.text" link>
+                <v-list-item
+                    v-for="item in items"
+                    :key="item.text"
+                    link
+                    :to="item.action"
+                >
                     <v-list-item-action>
                         <v-icon>mdi-{{ item.icon }}</v-icon>
                     </v-list-item-action>
@@ -50,11 +55,15 @@
         </v-navigation-drawer>
 
         <v-app-bar app clipped-left color="red" dense>
+            <!-- <v-btn text to="/admin" left> -->
             <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
             <v-icon class="mx-4">fab fa-youtube</v-icon>
             <v-toolbar-title class="mr-12 align-center">
-                <span class="title">Youtube</span>
+                <router-link to="/admin">
+                    <span class="title">Admin</span>
+                </router-link>
             </v-toolbar-title>
+            <!-- </v-btn> -->
             <v-spacer />
             <v-row align="center" style="max-width: 650px">
                 <v-text-field
@@ -94,11 +103,23 @@ export default {
         drawer: null,
         snackbar: false,
         items: [
-            { icon: "trending-up", text: "Most Popular" },
-            { icon: "youtube-subscription", text: "Subscriptions" },
-            { icon: "history", text: "History" },
-            { icon: "playlist-star", text: "Playlists" },
-            { icon: "youtube-tv", text: "Watch Later" }
+            { icon: "account", text: "Users", action: "/admin/users" },
+            { icon: "post-outline", text: "Posts", action: "/admin/posts" },
+            {
+                icon: "circle-edit-outline",
+                text: "Pages",
+                action: "/admin/pages"
+            },
+            {
+                icon: "briefcase-edit-outline",
+                text: "Categories",
+                action: "/admin/categories"
+            },
+            {
+                icon: "account-badge-outline",
+                text: "Roles",
+                action: "/admin/roles"
+            }
         ],
         items2: [
             { picture: 28, text: "Joseph" },
@@ -126,4 +147,9 @@ export default {
     }
 };
 </script>
-<style scoped></style>
+<style scoped>
+.router-link-active {
+    text-decoration: none;
+    color: #fff;
+}
+</style>
