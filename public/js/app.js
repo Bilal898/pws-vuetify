@@ -2041,16 +2041,65 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       email: "",
-      password: ""
+      password: "",
+      loading: false,
+      snackbar: false,
+      text: ""
     };
   },
   methods: {
     login: function login() {
-      localStorage.setItem("token", "34234523sdfsdf34");
+      var _this = this;
+
+      // Add a request interceptor
+      axios.interceptors.request.use(function (config) {
+        _this.loading = true; // Do something before request is sent
+
+        return config;
+      }, function (error) {
+        _this.loading = false; // Do something with request error
+
+        return Promise.reject(error);
+      }); // Add a response interceptor
+
+      axios.interceptors.response.use(function (response) {
+        _this.loading = false; // Any status code that lie within the range of 2xx cause this function to trigger
+        // Do something with response data
+
+        return response;
+      }, function (error) {
+        _this.loading = false; // Any status codes that falls outside the range of 2xx cause this function to trigger
+        // Do something with response error
+
+        return Promise.reject(error);
+      });
+      axios.post("/api/login", {
+        email: this.email,
+        password: this.password
+      }).then(function (res) {
+        localStorage.setItem("token", res.data.token);
+      })["catch"](function (err) {
+        console.log(err.response.data.status);
+        _this.text = err.response.data.status;
+        _this.snackbar = true;
+      });
     }
   }
 });
@@ -19963,6 +20012,16 @@ var render = function() {
                             1
                           ),
                           _vm._v(" "),
+                          _c("v-progress-linear", {
+                            attrs: {
+                              active: _vm.loading,
+                              indeterminate: _vm.loading,
+                              absolute: "",
+                              top: "",
+                              color: "deep-purple accent-4"
+                            }
+                          }),
+                          _vm._v(" "),
                           _c(
                             "v-card-text",
                             [
@@ -20025,6 +20084,43 @@ var render = function() {
                               )
                             ],
                             1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-snackbar",
+                        {
+                          model: {
+                            value: _vm.snackbar,
+                            callback: function($$v) {
+                              _vm.snackbar = $$v
+                            },
+                            expression: "snackbar"
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(_vm.text) +
+                              "\n                        "
+                          ),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { color: "pink", text: "" },
+                              on: {
+                                click: function($event) {
+                                  _vm.snackbar = false
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            Close\n                        "
+                              )
+                            ]
                           )
                         ],
                         1

@@ -9,6 +9,13 @@
                                 <v-toolbar-title>Login form</v-toolbar-title>
                                 <v-spacer />
                             </v-toolbar>
+                            <v-progress-linear
+                                :active="loading"
+                                :indeterminate="loading"
+                                absolute
+                                top
+                                color="deep-purple accent-4"
+                            ></v-progress-linear>
                             <v-card-text>
                                 <v-form>
                                     <v-text-field
@@ -36,6 +43,12 @@
                                 >
                             </v-card-actions>
                         </v-card>
+                        <v-snackbar v-model="snackbar">
+                            {{ text }}
+                            <v-btn color="pink" text @click="snackbar = false">
+                                Close
+                            </v-btn>
+                        </v-snackbar>
                     </v-col>
                 </v-row>
             </v-container>
@@ -47,12 +60,56 @@ export default {
     data() {
         return {
             email: "",
-            password: ""
+            password: "",
+            loading: false,
+            snackbar: false,
+            text: ""
         };
     },
     methods: {
         login: function() {
-            localStorage.setItem("token", "34234523sdfsdf34");
+            // Add a request interceptor
+            axios.interceptors.request.use(
+                config => {
+                    this.loading = true;
+                    // Do something before request is sent
+                    return config;
+                },
+                error => {
+                    this.loading = false;
+                    // Do something with request error
+                    return Promise.reject(error);
+                }
+            );
+
+            // Add a response interceptor
+            axios.interceptors.response.use(
+                response => {
+                    this.loading = false;
+                    // Any status code that lie within the range of 2xx cause this function to trigger
+                    // Do something with response data
+                    return response;
+                },
+                error => {
+                    this.loading = false;
+                    // Any status codes that falls outside the range of 2xx cause this function to trigger
+                    // Do something with response error
+                    return Promise.reject(error);
+                }
+            );
+            axios
+                .post("/api/login", {
+                    email: this.email,
+                    password: this.password
+                })
+                .then(res => {
+                    localStorage.setItem("token", res.data.token);
+                })
+                .catch(err => {
+                    console.log(err.response.data.status);
+                    this.text = err.response.data.status;
+                    this.snackbar = true;
+                });
         }
     }
 };
