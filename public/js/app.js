@@ -1926,12 +1926,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    source: String,
-    snackbar: false
+    source: String
   },
   data: function data() {
     return {
       drawer: null,
+      snackbar: false,
       items: [{
         icon: "trending-up",
         text: "Most Popular"
@@ -1968,7 +1968,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.$vuetify.theme.dark = true;
-    this.snackbar = true;
+  },
+  mounted: function mounted() {
+    this.snackbar = localStorage.getItem("loggedIn");
+    localStorage.removeItem("loggedIn");
   },
   methods: {
     logout: function logout() {
@@ -2114,6 +2117,7 @@ __webpack_require__.r(__webpack_exports__);
         password: this.password
       }).then(function (res) {
         localStorage.setItem("token", res.data.token);
+        localStorage.setItem("loggedIn", true);
 
         _this.$router.push("/admin").then(function (res) {
           return console.log("logged");

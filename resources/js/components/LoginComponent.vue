@@ -104,6 +104,7 @@ export default {
                 })
                 .then(res => {
                     localStorage.setItem("token", res.data.token);
+                    localStorage.setItem("loggedIn", true);
                     this.$router
                         .push("/admin")
                         .then(res => console.log("logged"))
