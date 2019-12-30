@@ -1844,16 +1844,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     console.log("Component mounted.");
@@ -19483,32 +19473,13 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "v-container",
+    [_c("v-alert", { attrs: { type: "info" } }, [_vm._v("valert")])],
+    1
+  )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "row justify-content-center" }, [
-        _c("div", { staticClass: "col-md-8" }, [
-          _c("div", { staticClass: "card" }, [
-            _c("div", { staticClass: "card-header" }, [
-              _vm._v("Example Component")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-body" }, [
-              _vm._v(
-                "\n                    I'm an admin component.\n                "
-              )
-            ])
-          ])
-        ])
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -72531,7 +72502,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuetify__WEBPACK_IMPORTED_MODULE_
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-throw new Error("Module build failed (from ./node_modules/css-loader/index.js):\nModuleBuildError: Module build failed (from ./node_modules/sass-loader/dist/cjs.js):\n\r\n@import '~bootstrap/scss/bootstrap';\r\n       ^\r\n      Can't find stylesheet to import.\n  ╷\n8 │ @import '~bootstrap/scss/bootstrap';\n  │         ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  ╵\n  stdin 8:9  root stylesheet\r\n      in C:\\xampp\\htdocs\\xampp\\pws\\resources\\sass\\app.scss (line 8, column 9)\n    at C:\\xampp\\htdocs\\xampp\\pws\\node_modules\\webpack\\lib\\NormalModule.js:316:20\n    at C:\\xampp\\htdocs\\xampp\\pws\\node_modules\\loader-runner\\lib\\LoaderRunner.js:367:11\n    at C:\\xampp\\htdocs\\xampp\\pws\\node_modules\\loader-runner\\lib\\LoaderRunner.js:233:18\n    at context.callback (C:\\xampp\\htdocs\\xampp\\pws\\node_modules\\loader-runner\\lib\\LoaderRunner.js:111:13)\n    at C:\\xampp\\htdocs\\xampp\\pws\\node_modules\\sass-loader\\dist\\index.js:89:7\n    at Function.call$2 (C:\\xampp\\htdocs\\xampp\\pws\\node_modules\\sass\\sass.dart.js:54996:16)\n    at _render_closure1.call$2 (C:\\xampp\\htdocs\\xampp\\pws\\node_modules\\sass\\sass.dart.js:33888:12)\n    at _RootZone.runBinary$3$3 (C:\\xampp\\htdocs\\xampp\\pws\\node_modules\\sass\\sass.dart.js:19912:18)\n    at _RootZone.runBinary$3 (C:\\xampp\\htdocs\\xampp\\pws\\node_modules\\sass\\sass.dart.js:19916:19)\n    at _FutureListener.handleError$1 (C:\\xampp\\htdocs\\xampp\\pws\\node_modules\\sass\\sass.dart.js:18381:19)\n    at _Future__propagateToListeners_handleError.call$0 (C:\\xampp\\htdocs\\xampp\\pws\\node_modules\\sass\\sass.dart.js:18669:40)\n    at Object._Future__propagateToListeners (C:\\xampp\\htdocs\\xampp\\pws\\node_modules\\sass\\sass.dart.js:3495:88)\n    at _Future._completeError$2 (C:\\xampp\\htdocs\\xampp\\pws\\node_modules\\sass\\sass.dart.js:18505:9)\n    at _AsyncAwaitCompleter.completeError$2 (C:\\xampp\\htdocs\\xampp\\pws\\node_modules\\sass\\sass.dart.js:17904:12)\n    at Object._asyncRethrow (C:\\xampp\\htdocs\\xampp\\pws\\node_modules\\sass\\sass.dart.js:3251:17)\n    at C:\\xampp\\htdocs\\xampp\\pws\\node_modules\\sass\\sass.dart.js:10597:20\n    at _wrapJsFunctionForAsync_closure.$protected (C:\\xampp\\htdocs\\xampp\\pws\\node_modules\\sass\\sass.dart.js:3274:15)\n    at _wrapJsFunctionForAsync_closure.call$2 (C:\\xampp\\htdocs\\xampp\\pws\\node_modules\\sass\\sass.dart.js:17925:12)\n    at _awaitOnObject_closure0.call$2 (C:\\xampp\\htdocs\\xampp\\pws\\node_modules\\sass\\sass.dart.js:17917:25)\n    at _RootZone.runBinary$3$3 (C:\\xampp\\htdocs\\xampp\\pws\\node_modules\\sass\\sass.dart.js:19912:18)\n    at _RootZone.runBinary$3 (C:\\xampp\\htdocs\\xampp\\pws\\node_modules\\sass\\sass.dart.js:19916:19)\n    at _FutureListener.handleError$1 (C:\\xampp\\htdocs\\xampp\\pws\\node_modules\\sass\\sass.dart.js:18381:19)\n    at _Future__propagateToListeners_handleError.call$0 (C:\\xampp\\htdocs\\xampp\\pws\\node_modules\\sass\\sass.dart.js:18669:40)\n    at Object._Future__propagateToListeners (C:\\xampp\\htdocs\\xampp\\pws\\node_modules\\sass\\sass.dart.js:3495:88)\n    at _Future._completeError$2 (C:\\xampp\\htdocs\\xampp\\pws\\node_modules\\sass\\sass.dart.js:18505:9)\n    at _AsyncAwaitCompleter.completeError$2 (C:\\xampp\\htdocs\\xampp\\pws\\node_modules\\sass\\sass.dart.js:17904:12)\n    at Object._asyncRethrow (C:\\xampp\\htdocs\\xampp\\pws\\node_modules\\sass\\sass.dart.js:3251:17)\n    at C:\\xampp\\htdocs\\xampp\\pws\\node_modules\\sass\\sass.dart.js:12316:20\n    at _wrapJsFunctionForAsync_closure.$protected (C:\\xampp\\htdocs\\xampp\\pws\\node_modules\\sass\\sass.dart.js:3274:15)\n    at _wrapJsFunctionForAsync_closure.call$2 (C:\\xampp\\htdocs\\xampp\\pws\\node_modules\\sass\\sass.dart.js:17925:12)\n    at _awaitOnObject_closure0.call$2 (C:\\xampp\\htdocs\\xampp\\pws\\node_modules\\sass\\sass.dart.js:17917:25)\n    at _RootZone.runBinary$3$3 (C:\\xampp\\htdocs\\xampp\\pws\\node_modules\\sass\\sass.dart.js:19912:18)\n    at _RootZone.runBinary$3 (C:\\xampp\\htdocs\\xampp\\pws\\node_modules\\sass\\sass.dart.js:19916:19)\n    at _FutureListener.handleError$1 (C:\\xampp\\htdocs\\xampp\\pws\\node_modules\\sass\\sass.dart.js:18381:19)\n    at _Future__propagateToListeners_handleError.call$0 (C:\\xampp\\htdocs\\xampp\\pws\\node_modules\\sass\\sass.dart.js:18669:40)\n    at Object._Future__propagateToListeners (C:\\xampp\\htdocs\\xampp\\pws\\node_modules\\sass\\sass.dart.js:3495:88)");
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 
