@@ -69,7 +69,8 @@
         </v-app-bar>
 
         <v-content>
-            <v-container class="fill-height">
+            <v-container class="">
+                <router-view></router-view>
                 <v-row justify="center" align="center">
                     <v-col>
                         <v-snackbar v-model="snackbar">
