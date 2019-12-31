@@ -14,11 +14,13 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 Route::group(['middleware' => ['auth:api'], 'namespace' => 'Api'], function(){
 
     Route::resource('roles', 'RoleController');
+    Route::get('/verify', 'UserController@verify');
+
 });
 Route::post('login', 'Api\UserController@login')->name('login');

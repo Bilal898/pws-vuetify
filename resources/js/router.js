@@ -25,14 +25,18 @@ const routes = [
                 component: RolesComponent,
                 name: "Roles"
             }
-        ]
-        // beforeEnter: (to, from, next) => {
-        //     if (localStorage.getItem("token")) {
-        //         next();
-        //     } else {
-        //         next("/login");
-        //     }
-        // }
+        ],
+        beforeEnter: (to, from, next) => {
+            // if (localStorage.getItem("token")) {
+            //     next();
+            // } else {
+            //     next("/login");
+            // }
+            axios
+                .get("api/verify")
+                .then(res => next())
+                .catch(err => next("/login"));
+        }
     }
 ];
 const router = new VueRouter({ routes });

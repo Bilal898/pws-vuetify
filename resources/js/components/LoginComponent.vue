@@ -63,6 +63,9 @@
 </template>
 <script>
 export default {
+    created() {
+        this.$vuetify.theme.dark = true;
+    },
     data() {
         return {
             email: "",
