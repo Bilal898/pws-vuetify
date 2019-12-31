@@ -41,7 +41,9 @@ class RoleController extends Controller
      */
     public function show($id)
     {
-        //
+        $roles = Role::where('name', 'LIKE', "%$id%")->paginate();
+        return response()->json(['roles' => $roles], 200);
+
     }
 
     /**
@@ -64,7 +66,13 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $affected = Role::where('id', $id)
+              ->update(['name' => $request->name]);
+        if($affected){
+
+            $role = Role::find($id);
+                  return response()->json(['role' => $role], 200);
+        }
     }
 
     /**
@@ -75,6 +83,6 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Role::where('id', $id)->delete();
     }
 }

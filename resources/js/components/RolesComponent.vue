@@ -9,13 +9,16 @@
         loading-text="Loading... Please wait"
         :footer-props="{
             itemsPerPageOptions: [5, 10, 15],
-            itemsPerPageText: 'Roles per Page'
+            itemsPerPageText: 'Roles per Page',
+            'show-current-page': true,
+            'show-first-last-page': true
         }"
         :items-per-page="15"
         @pagination="paginate"
         :server-items-length="roles.total"
     >
         <template v-slot:top>
+            <v-text-field @input="searchIt" label="Search..." class="mx-4" />
             <v-toolbar flat color="dark">
                 <v-toolbar-title>Role Management System</v-toolbar-title>
                 <v-divider class="mx-4" inset vertical></v-divider>
@@ -123,6 +126,20 @@ export default {
     },
 
     methods: {
+        searchIt(e) {
+            if (e.length > 3) {
+                axios
+                    .get(`api/roles/${e}`)
+                    .then(res => (this.roles = res.data.roles))
+                    .catch(err => console.log(err.response));
+            }
+            if (e.length <= 0) {
+                axios
+                    .get(`api/roles`)
+                    .then(res => (this.roles = res.data.roles))
+                    .catch(err => console.log(err.response));
+            }
+        },
         paginate(event) {
             // console.dir($event);
             axios
@@ -169,16 +186,25 @@ export default {
             );
         },
 
-        editItem(item) {
-            this.editedIndex = this.roles.indexOf(item);
-            this.editedItem = Object.assign({}, item);
-            this.dialog = true;
-        },
-
         deleteItem(item) {
-            const index = this.roles.indexOf(item);
-            confirm("Are you sure you want to delete this item?") &&
-                this.roles.splice(index, 1);
+            const index = this.roles.data.indexOf(item);
+            let decide = confirm("Are you sure you want to delete this item?");
+            // &&
+            // this.roles.splice(index, 1);
+            if (decide) {
+                axios
+                    .delete(`/api/roles/${item.id}`)
+                    .then(res => {
+                        this.text = "Record deleted successfully";
+                        this.snackbar = true;
+                        this.roles.data.splice(index, 1);
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        this.text = "Error deleting record";
+                        this.snackbar = true;
+                    });
+            }
         },
 
         close() {
@@ -188,14 +214,34 @@ export default {
                 this.editedIndex = -1;
             }, 300);
         },
-
+        editItem(item) {
+            this.editedIndex = this.roles.data.indexOf(item);
+            this.editedItem = Object.assign({}, item);
+            this.dialog = true;
+        },
         save() {
             if (this.editedIndex > -1) {
-                Object.assign(this.roles[this.editedIndex], this.editedItem);
+                const index = this.editedIndex;
+                axios
+                    .put(`/api/roles/${this.editedItem.id}`, {
+                        name: this.editedItem.name
+                    })
+                    .then(res => {
+                        this.text = "Record Updated Successfully";
+                        this.snackbar = true;
+                        // console.log(res);
+
+                        Object.assign(this.roles.data[index], res.data.role);
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        this.text = "Error updating record";
+                        this.snackbar = true;
+                    });
             } else {
                 axios
                     .post("/api/roles", { name: this.editedItem.name })
-                    .then(res => this.roles.push(res.data.role))
+                    .then(res => this.roles.data.push(res.data.role))
                     .catch(err => console.dir(err.response));
             }
             this.close();

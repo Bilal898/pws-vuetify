@@ -1936,8 +1936,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     source: String
@@ -2259,6 +2257,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2315,8 +2316,27 @@ __webpack_require__.r(__webpack_exports__);
     this.initialize();
   },
   methods: {
-    paginate: function paginate(event) {
+    searchIt: function searchIt(e) {
       var _this = this;
+
+      if (e.length > 3) {
+        axios.get("api/roles/".concat(e)).then(function (res) {
+          return _this.roles = res.data.roles;
+        })["catch"](function (err) {
+          return console.log(err.response);
+        });
+      }
+
+      if (e.length <= 0) {
+        axios.get("api/roles").then(function (res) {
+          return _this.roles = res.data.roles;
+        })["catch"](function (err) {
+          return console.log(err.response);
+        });
+      }
+    },
+    paginate: function paginate(event) {
+      var _this2 = this;
 
       // console.dir($event);
       axios.get("/api/roles?page=".concat(event.page), {
@@ -2324,68 +2344,96 @@ __webpack_require__.r(__webpack_exports__);
           per_page: event.itemsPerPage
         }
       }).then(function (res) {
-        return _this.roles = res.data.roles;
+        return _this2.roles = res.data.roles;
       })["catch"](function (err) {
         if (err.response.status == 401) localStorage.removeItem("token");
 
-        _this.$router.push("/login");
+        _this2.$router.push("/login");
       });
     },
     initialize: function initialize() {
-      var _this2 = this;
+      var _this3 = this;
 
       // this.roles = [];
       // Add a request interceptor
       axios.interceptors.request.use(function (config) {
-        _this2.loading = true; // Do something before request is sent
+        _this3.loading = true; // Do something before request is sent
 
         return config;
       }, function (error) {
-        _this2.loading = false; // Do something with request error
+        _this3.loading = false; // Do something with request error
 
         return Promise.reject(error);
       }); // Add a response interceptor
 
       axios.interceptors.response.use(function (response) {
-        _this2.loading = false; // Any status code that lie within the range of 2xx cause this function to trigger
+        _this3.loading = false; // Any status code that lie within the range of 2xx cause this function to trigger
         // Do something with response data
 
         return response;
       }, function (error) {
-        _this2.loading = false; // Any status codes that falls outside the range of 2xx cause this function to trigger
+        _this3.loading = false; // Any status codes that falls outside the range of 2xx cause this function to trigger
         // Do something with response error
 
         return Promise.reject(error);
       });
     },
-    editItem: function editItem(item) {
-      this.editedIndex = this.roles.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialog = true;
-    },
     deleteItem: function deleteItem(item) {
-      var index = this.roles.indexOf(item);
-      confirm("Are you sure you want to delete this item?") && this.roles.splice(index, 1);
+      var _this4 = this;
+
+      var index = this.roles.data.indexOf(item);
+      var decide = confirm("Are you sure you want to delete this item?"); // &&
+      // this.roles.splice(index, 1);
+
+      if (decide) {
+        axios["delete"]("/api/roles/".concat(item.id)).then(function (res) {
+          _this4.text = "Record deleted successfully";
+          _this4.snackbar = true;
+
+          _this4.roles.data.splice(index, 1);
+        })["catch"](function (err) {
+          console.log(err);
+          _this4.text = "Error deleting record";
+          _this4.snackbar = true;
+        });
+      }
     },
     close: function close() {
-      var _this3 = this;
+      var _this5 = this;
 
       this.dialog = false;
       setTimeout(function () {
-        _this3.editedItem = Object.assign({}, _this3.defaultItem);
-        _this3.editedIndex = -1;
+        _this5.editedItem = Object.assign({}, _this5.defaultItem);
+        _this5.editedIndex = -1;
       }, 300);
     },
+    editItem: function editItem(item) {
+      this.editedIndex = this.roles.data.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialog = true;
+    },
     save: function save() {
-      var _this4 = this;
+      var _this6 = this;
 
       if (this.editedIndex > -1) {
-        Object.assign(this.roles[this.editedIndex], this.editedItem);
+        var index = this.editedIndex;
+        axios.put("/api/roles/".concat(this.editedItem.id), {
+          name: this.editedItem.name
+        }).then(function (res) {
+          _this6.text = "Record Updated Successfully";
+          _this6.snackbar = true; // console.log(res);
+
+          Object.assign(_this6.roles.data[index], res.data.role);
+        })["catch"](function (err) {
+          console.log(err);
+          _this6.text = "Error updating record";
+          _this6.snackbar = true;
+        });
       } else {
         axios.post("/api/roles", {
           name: this.editedItem.name
         }).then(function (res) {
-          return _this4.roles.push(res.data.role);
+          return _this6.roles.data.push(res.data.role);
         })["catch"](function (err) {
           return console.dir(err.response);
         });
@@ -2410,7 +2458,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/* .router-link-active {\r\n    text-decoration: none;\r\n    color: \"black\";\r\n} */\r\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/* .router-link-active {\r\n    text-decoration: none;\r\n    color: \"black\";\r\n} */\r\n", ""]);
 
 // exports
 
@@ -20839,10 +20887,8 @@ var render = function() {
             [
               _c("v-text-field", {
                 attrs: {
-                  "append-icon-cb": function() {},
                   placeholder: "Search...",
                   "single-line": "",
-                  "append-icon": "search",
                   color: "white",
                   "hide-details": ""
                 }
@@ -21178,7 +21224,9 @@ var render = function() {
       "loading-text": "Loading... Please wait",
       "footer-props": {
         itemsPerPageOptions: [5, 10, 15],
-        itemsPerPageText: "Roles per Page"
+        itemsPerPageText: "Roles per Page",
+        "show-current-page": true,
+        "show-first-last-page": true
       },
       "items-per-page": 15,
       "server-items-length": _vm.roles.total
@@ -21189,6 +21237,12 @@ var render = function() {
         key: "top",
         fn: function() {
           return [
+            _c("v-text-field", {
+              staticClass: "mx-4",
+              attrs: { label: "Search..." },
+              on: { input: _vm.searchIt }
+            }),
+            _vm._v(" "),
             _c(
               "v-toolbar",
               { attrs: { flat: "", color: "dark" } },
