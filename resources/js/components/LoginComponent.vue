@@ -6,7 +6,7 @@
                     <v-col cols="12" sm="8" md="4">
                         <v-card class="elevation-12">
                             <v-toolbar color="error" dark flat>
-                                <v-toolbar-title>Login form</v-toolbar-title>
+                                <v-toolbar-title>Login Form</v-toolbar-title>
                                 <v-spacer />
                             </v-toolbar>
                             <v-progress-linear
