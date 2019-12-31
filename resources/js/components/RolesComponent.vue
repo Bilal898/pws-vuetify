@@ -1,12 +1,19 @@
 <template>
     <v-data-table
         :headers="headers"
-        :items="roles"
-        sort-by="calories"
+        :items="roles.data"
+        sort-by="name"
         class="elevation-1"
         item-key="name"
         :loading="loading"
         loading-text="Loading... Please wait"
+        :footer-props="{
+            itemsPerPageOptions: [5, 10, 15],
+            itemsPerPageText: 'Roles per Page'
+        }"
+        :items-per-page="15"
+        @pagination="paginate"
+        :server-items-length="roles.total"
     >
         <template v-slot:top>
             <v-toolbar flat color="dark">
@@ -68,6 +75,8 @@ export default {
     data: () => ({
         dialog: false,
         loading: false,
+        text: "",
+        snackbar: false,
         headers: [
             {
                 text: "#",
@@ -114,6 +123,19 @@ export default {
     },
 
     methods: {
+        paginate(event) {
+            // console.dir($event);
+            axios
+                .get(`/api/roles?page=${event.page}`, {
+                    params: { per_page: event.itemsPerPage }
+                })
+                .then(res => (this.roles = res.data.roles))
+                .catch(err => {
+                    if (err.response.status == 401)
+                        localStorage.removeItem("token");
+                    this.$router.push("/login");
+                });
+        },
         initialize() {
             // this.roles = [];
             // Add a request interceptor
@@ -145,14 +167,6 @@ export default {
                     return Promise.reject(error);
                 }
             );
-            axios
-                .get("/api/roles", {})
-                .then(res => (this.roles = res.data.roles))
-                .catch(err => {
-                    if (err.response.status == 401)
-                        localStorage.removeItem("token");
-                    this.$router.push("/login");
-                });
         },
 
         editItem(item) {

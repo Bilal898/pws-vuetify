@@ -2252,11 +2252,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       dialog: false,
       loading: false,
+      text: "",
+      snackbar: false,
       headers: [{
         text: "#",
         align: "left",
@@ -2306,38 +2315,47 @@ __webpack_require__.r(__webpack_exports__);
     this.initialize();
   },
   methods: {
-    initialize: function initialize() {
+    paginate: function paginate(event) {
       var _this = this;
 
-      // this.roles = [];
-      // Add a request interceptor
-      axios.interceptors.request.use(function (config) {
-        _this.loading = true; // Do something before request is sent
-
-        return config;
-      }, function (error) {
-        _this.loading = false; // Do something with request error
-
-        return Promise.reject(error);
-      }); // Add a response interceptor
-
-      axios.interceptors.response.use(function (response) {
-        _this.loading = false; // Any status code that lie within the range of 2xx cause this function to trigger
-        // Do something with response data
-
-        return response;
-      }, function (error) {
-        _this.loading = false; // Any status codes that falls outside the range of 2xx cause this function to trigger
-        // Do something with response error
-
-        return Promise.reject(error);
-      });
-      axios.get("/api/roles", {}).then(function (res) {
+      // console.dir($event);
+      axios.get("/api/roles?page=".concat(event.page), {
+        params: {
+          per_page: event.itemsPerPage
+        }
+      }).then(function (res) {
         return _this.roles = res.data.roles;
       })["catch"](function (err) {
         if (err.response.status == 401) localStorage.removeItem("token");
 
         _this.$router.push("/login");
+      });
+    },
+    initialize: function initialize() {
+      var _this2 = this;
+
+      // this.roles = [];
+      // Add a request interceptor
+      axios.interceptors.request.use(function (config) {
+        _this2.loading = true; // Do something before request is sent
+
+        return config;
+      }, function (error) {
+        _this2.loading = false; // Do something with request error
+
+        return Promise.reject(error);
+      }); // Add a response interceptor
+
+      axios.interceptors.response.use(function (response) {
+        _this2.loading = false; // Any status code that lie within the range of 2xx cause this function to trigger
+        // Do something with response data
+
+        return response;
+      }, function (error) {
+        _this2.loading = false; // Any status codes that falls outside the range of 2xx cause this function to trigger
+        // Do something with response error
+
+        return Promise.reject(error);
       });
     },
     editItem: function editItem(item) {
@@ -2350,16 +2368,16 @@ __webpack_require__.r(__webpack_exports__);
       confirm("Are you sure you want to delete this item?") && this.roles.splice(index, 1);
     },
     close: function close() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.dialog = false;
       setTimeout(function () {
-        _this2.editedItem = Object.assign({}, _this2.defaultItem);
-        _this2.editedIndex = -1;
+        _this3.editedItem = Object.assign({}, _this3.defaultItem);
+        _this3.editedIndex = -1;
       }, 300);
     },
     save: function save() {
-      var _this3 = this;
+      var _this4 = this;
 
       if (this.editedIndex > -1) {
         Object.assign(this.roles[this.editedIndex], this.editedItem);
@@ -2367,7 +2385,7 @@ __webpack_require__.r(__webpack_exports__);
         axios.post("/api/roles", {
           name: this.editedItem.name
         }).then(function (res) {
-          return _this3.roles.push(res.data.role);
+          return _this4.roles.push(res.data.role);
         })["catch"](function (err) {
           return console.dir(err.response);
         });
@@ -21153,12 +21171,19 @@ var render = function() {
     staticClass: "elevation-1",
     attrs: {
       headers: _vm.headers,
-      items: _vm.roles,
-      "sort-by": "calories",
+      items: _vm.roles.data,
+      "sort-by": "name",
       "item-key": "name",
       loading: _vm.loading,
-      "loading-text": "Loading... Please wait"
+      "loading-text": "Loading... Please wait",
+      "footer-props": {
+        itemsPerPageOptions: [5, 10, 15],
+        itemsPerPageText: "Roles per Page"
+      },
+      "items-per-page": 15,
+      "server-items-length": _vm.roles.total
     },
+    on: { pagination: _vm.paginate },
     scopedSlots: _vm._u([
       {
         key: "top",
