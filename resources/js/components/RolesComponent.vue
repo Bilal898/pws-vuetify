@@ -9,14 +9,14 @@
         loading-text="Loading... Please wait"
     >
         <template v-slot:top>
-            <v-toolbar flat color="white">
-                <v-toolbar-title>My CRUD</v-toolbar-title>
+            <v-toolbar flat color="dark">
+                <v-toolbar-title>Role Management System</v-toolbar-title>
                 <v-divider class="mx-4" inset vertical></v-divider>
                 <v-spacer></v-spacer>
                 <v-dialog v-model="dialog" max-width="500px">
                     <template v-slot:activator="{ on }">
                         <v-btn color="primary" dark class="mb-2" v-on="on"
-                            >New Item</v-btn
+                            >Add Role</v-btn
                         >
                     </template>
                     <v-card>
@@ -27,35 +27,13 @@
                         <v-card-text>
                             <v-container>
                                 <v-row>
-                                    <v-col cols="12" sm="6" md="4">
+                                    <v-col cols="12" sm="12">
                                         <v-text-field
                                             v-model="editedItem.name"
-                                            label="Dessert name"
+                                            label="Role Name"
                                         ></v-text-field>
                                     </v-col>
-                                    <v-col cols="12" sm="6" md="4">
-                                        <v-text-field
-                                            v-model="editedItem.calories"
-                                            label="Calories"
-                                        ></v-text-field>
-                                    </v-col>
-                                    <v-col cols="12" sm="6" md="4">
-                                        <v-text-field
-                                            v-model="editedItem.fat"
-                                            label="Fat (g)"
-                                        ></v-text-field>
-                                    </v-col>
-                                    <v-col cols="12" sm="6" md="4">
-                                        <v-text-field
-                                            v-model="editedItem.carbs"
-                                            label="Carbs (g)"
-                                        ></v-text-field>
-                                    </v-col>
-                                    <v-col cols="12" sm="6" md="4">
-                                        <v-text-field
-                                            v-model="editedItem.protein"
-                                            label="Protein (g)"
-                                        ></v-text-field>
+                                   
                                     </v-col>
                                 </v-row>
                             </v-container>
@@ -109,15 +87,15 @@ export default {
         editedIndex: -1,
         editedItem: {
             name: "",
-            calories: 0,
-            fat: 0,
-            carbs: 0
+            id:"",
+            created_at: "",
+            updated_at: ""
         },
         defaultItem: {
             name: "",
-            calories: 0,
-            fat: 0,
-            carbs: 0
+            id:"",
+            created_at: "",
+            updated_at: ""
         }
     }),
 
@@ -203,7 +181,10 @@ export default {
             if (this.editedIndex > -1) {
                 Object.assign(this.roles[this.editedIndex], this.editedItem);
             } else {
-                this.roles.push(this.editedItem);
+            axios.post('/api/roles', {'name': this.editedItem.name})
+            .then(res => this.roles.push(res.data.role))
+            .catch(err => console.dir(err.response))
+                
             }
             this.close();
         }

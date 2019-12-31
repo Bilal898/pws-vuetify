@@ -18,15 +18,7 @@ class RoleController extends Controller
         return response()->json(['roles' => Role::all()], 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -36,7 +28,8 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $role = Role::create(['name' => $request->name]);
+        return response()->json(['role' => $role], 200);
     }
 
     /**
