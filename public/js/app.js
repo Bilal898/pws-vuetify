@@ -1934,6 +1934,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     source: String
@@ -1942,6 +1946,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       drawer: null,
       snackbar: false,
+      theme: true,
       items: [{
         icon: "account",
         text: "Users",
@@ -1996,6 +2001,11 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (err) {
         return console.log(err);
       });
+    }
+  },
+  watch: {
+    theme: function theme(old, newval) {
+      this.$vuetify.theme.dark = old;
     }
   }
 });
@@ -2242,8 +2252,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2356,8 +2364,8 @@ __webpack_require__.r(__webpack_exports__);
       if (this.editedIndex > -1) {
         Object.assign(this.roles[this.editedIndex], this.editedItem);
       } else {
-        axios.post('/api/roles', {
-          'name': this.editedItem.name
+        axios.post("/api/roles", {
+          name: this.editedItem.name
         }).then(function (res) {
           return _this3.roles.push(res.data.role);
         })["catch"](function (err) {
@@ -2384,7 +2392,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.router-link-active[data-v-a603f2ce] {\r\n    text-decoration: none;\r\n    color: #fff;\n}\r\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/* .router-link-active {\r\n    text-decoration: none;\r\n    color: \"black\";\r\n} */\r\n", ""]);
 
 // exports
 
@@ -20728,19 +20736,22 @@ var render = function() {
                 { staticClass: "mt-4", attrs: { link: "" } },
                 [
                   _c(
-                    "v-list-item-action",
-                    [
-                      _c("v-icon", { attrs: { color: "grey darken-1" } }, [
-                        _vm._v("mdi-plus-circle-outline")
-                      ])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
                     "v-list-item-title",
                     { staticClass: "grey--text text--darken-1" },
-                    [_vm._v("Browse Channels")]
+                    [
+                      _c("v-switch", {
+                        staticClass: "ma-4",
+                        attrs: { label: "Switch Theme" },
+                        model: {
+                          value: _vm.theme,
+                          callback: function($$v) {
+                            _vm.theme = $$v
+                          },
+                          expression: "theme"
+                        }
+                      })
+                    ],
+                    1
                   )
                 ],
                 1
@@ -20777,7 +20788,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-app-bar",
-        { attrs: { app: "", "clipped-left": "", color: "red", dense: "" } },
+        { attrs: { app: "", "clipped-left": "", dense: "" } },
         [
           _c("v-app-bar-nav-icon", {
             on: {
@@ -20788,14 +20799,12 @@ var render = function() {
             }
           }),
           _vm._v(" "),
-          _c("v-icon", { staticClass: "mx-4" }, [_vm._v("fab fa-youtube")]),
-          _vm._v(" "),
           _c(
-            "v-toolbar-title",
-            { staticClass: "mr-12 align-center" },
+            "v-btn",
+            { attrs: { text: "", to: "/admin", left: "" } },
             [
-              _c("router-link", { attrs: { to: "/admin" } }, [
-                _c("span", { staticClass: "title" }, [_vm._v("Admin")])
+              _c("v-toolbar-title", { staticClass: "mr-12 align-center" }, [
+                _vm._v("\n                Admin\n                ")
               ])
             ],
             1

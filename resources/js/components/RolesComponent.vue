@@ -33,8 +33,6 @@
                                             label="Role Name"
                                         ></v-text-field>
                                     </v-col>
-                                   
-                                    </v-col>
                                 </v-row>
                             </v-container>
                         </v-card-text>
@@ -87,13 +85,13 @@ export default {
         editedIndex: -1,
         editedItem: {
             name: "",
-            id:"",
+            id: "",
             created_at: "",
             updated_at: ""
         },
         defaultItem: {
             name: "",
-            id:"",
+            id: "",
             created_at: "",
             updated_at: ""
         }
@@ -181,10 +179,10 @@ export default {
             if (this.editedIndex > -1) {
                 Object.assign(this.roles[this.editedIndex], this.editedItem);
             } else {
-            axios.post('/api/roles', {'name': this.editedItem.name})
-            .then(res => this.roles.push(res.data.role))
-            .catch(err => console.dir(err.response))
-                
+                axios
+                    .post("/api/roles", { name: this.editedItem.name })
+                    .then(res => this.roles.push(res.data.role))
+                    .catch(err => console.dir(err.response));
             }
             this.close();
         }
